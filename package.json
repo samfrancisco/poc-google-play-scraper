@@ -8,6 +8,7 @@
     "lint": "eslint src/**/*.js",
     "start": "babel-node ./src/app.js",
     "start:dist": "node dist/app.js",
+    "start:games": "babel-node ./src/games.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
