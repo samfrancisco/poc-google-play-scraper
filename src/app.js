@@ -52,7 +52,8 @@ async function getApps(criteria) {
       category,
       collection,
       fullDetail: true,
-      num: 10000
+      num: 10000,
+      throttle: 1000
     });
   } catch (error) {
     const message = `Error getting ${collection} collection under ${category} category:`;
