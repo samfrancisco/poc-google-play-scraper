@@ -8,8 +8,22 @@ import dateFormat from 'dateformat-light';
 
 const collections = Object.values(scraper.collection);
 
-async function getCategories() {
-  return await scraper.categories();
+function getCategories() {
+  return [
+    'GAME_ROLE_PLAYING',
+    'GAME_SIMULATION',
+    'GAME_SPORTS',
+    'GAME_STRATEGY',
+    'GAME_TRIVIA',
+    'GAME_WORD',
+    'FAMILY',
+    'FAMILY_ACTION',
+    'FAMILY_BRAINGAMES',
+    'FAMILY_CREATE',
+    'FAMILY_EDUCATION',
+    'FAMILY_MUSICVIDEO',
+    'FAMILY_PRETEND',
+  ]
 }
 
 function getCartesianProductOf() {
@@ -34,7 +48,12 @@ async function getApps(criteria) {
   const category = criteria[1];
   console.log(`Getting ${collection} collection under ${category} category`);
   try {
-    return await scraper.list({ category, collection });
+    return await scraper.list({
+      category,
+      collection,
+      fullDetail: true,
+      num: 10000
+    });
   } catch (error) {
     const message = `Error getting ${collection} collection under ${category} category:`;
     console.error(`${chalk.red(message)}`);
@@ -71,7 +90,7 @@ function formatContents(apps) {
 
 async function scrape() {
   try {
-    const categories = await getCategories();
+    const categories = getCategories();
     const combinations = getCartesianProductOf(collections, categories);
     const getAppsPromises = _.map(combinations, combination =>
       getApps(combination)
