@@ -56,6 +56,19 @@ async function writeToFile(filepath, contents) {
   });
 }
 
+function formatContents(apps) {
+  let contents = '';
+  apps.forEach(app => {
+    if (contents) {
+      contents = `${contents}\n`;
+    }
+
+    contents = `${contents}${JSON.stringify(app)}`;
+  });
+
+  return contents;
+}
+
 async function scrape() {
   try {
     const categories = await getCategories();
@@ -67,13 +80,11 @@ async function scrape() {
 
     // Flatten results and dedupe by appId
     const apps = _.uniqBy(_.flatten(results), 'appId');
+    const formattedContent = formatContents(apps);
     const filename = `${dateFormat(new Date(), 'yyyymmddHHMMssl')}.json`;
     const filepath = path.join(__dirname, '..', '/outputs/', filename);
 
-    const writeResult = await writeToFile(
-      filepath,
-      JSON.stringify(apps, null, 2)
-    );
+    const writeResult = await writeToFile(filepath, formattedContent);
     console.log(`${chalk.green(writeResult)}`);
   } catch (error) {
     console.error('Error during scraping:');
