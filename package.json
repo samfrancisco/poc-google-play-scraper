@@ -2,7 +2,7 @@
   "name": "sample-gplay-scraper",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
     "lint": "eslint src/**/*.js",
