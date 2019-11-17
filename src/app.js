@@ -7,7 +7,10 @@ import chalk from 'chalk';
 import dateFormat from 'dateformat-light';
 
 // const collections = Object.values(scraper.collection);
-const collections = [scraper.collection.TOP_FREE];
+const collections = [
+  scraper.collection.TOP_FREE,
+  scraper.collection.TOP_PAID
+];
 
 function getCategories() {
   return [
@@ -57,8 +60,8 @@ async function getApps(criteria) {
       category,
       collection,
       fullDetail: true,
-      num: 100,
-      throttle: 1
+      num: 1000000,
+      throttle: 1000
     });
   } catch (error) {
     const message = `Error getting ${collection} collection under ${category} category:`;
