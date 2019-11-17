@@ -34,22 +34,16 @@ function getCategories() {
     'FAMILY_EDUCATION',
     'FAMILY_MUSICVIDEO',
     'FAMILY_PRETEND'
-  ]
+  ];
 }
 
 function getCartesianProductOf() {
   return _.reduce(
     arguments,
-    (a, b) => {
-      return _.flatten(
-        _.map(a, x => {
-          return _.map(b, y => {
-            return x.concat([y]);
-          });
-        }),
-        true
-      );
-    },
+    (a, b) => _.flatten(
+      _.map(a, x => _.map(b, y => x.concat([y]))),
+      true
+    ),
     [[]]
   );
 }
@@ -106,9 +100,7 @@ async function scrape() {
     const categories = getCategories();
     const combinations = getCartesianProductOf(collections, categories);
     console.log(combinations);
-    const getAppsPromises = _.map(combinations, combination =>
-      getApps(combination)
-    );
+    const getAppsPromises = _.map(combinations, combination => getApps(combination));
     const results = await Promise.all(getAppsPromises);
 
     // Flatten results and dedupe by appId
@@ -118,10 +110,10 @@ async function scrape() {
     const filepath = path.join(__dirname, '..', '/outputs/', filename);
 
     const writeResult = await writeToFile(filepath, formattedContent);
-    console.log(`${chalk.reset(writeResult)}`);
+    console.log(`${chalk.white(writeResult)}`);
   } catch (error) {
     console.error('Error during scraping:');
-    console.error(`${chalk.reset(error)}`);
+    console.error(`${chalk.white(error)}`);
   }
 }
 
