@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "build": "babel src --out-dir dist --source-maps --copy-files",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint --fix src/**/*.js",
     "start": "babel-node ./src/app.js",
     "start:dist": "node dist/app.js",
     "start:games": "babel-node ./src/games.js",
@@ -30,6 +30,7 @@
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-promise": "^4.2.1",
     "husky": "^3.0.9",
     "prettier-eslint-cli": "^5.0.0"
   },

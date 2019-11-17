@@ -6,23 +6,34 @@ import _ from 'lodash';
 import chalk from 'chalk';
 import dateFormat from 'dateformat-light';
 
-const collections = Object.values(scraper.collection);
+// const collections = Object.values(scraper.collection);
+const collections = [scraper.collection.TOP_FREE];
 
 function getCategories() {
   return [
+    'GAME_ACTION',
+    'GAME_ADVENTURE',
+    'GAME_ARCADE',
+    'GAME_BOARD',
+    'GAME_CARD',
+    'GAME_CASINO',
+    'GAME_CASUAL',
+    'GAME_EDUCATIONAL',
+    'GAME_MUSIC',
+    'GAME_PUZZLE',
+    'GAME_RACING',
     'GAME_ROLE_PLAYING',
     'GAME_SIMULATION',
     'GAME_SPORTS',
     'GAME_STRATEGY',
     'GAME_TRIVIA',
     'GAME_WORD',
-    'FAMILY',
     'FAMILY_ACTION',
     'FAMILY_BRAINGAMES',
     'FAMILY_CREATE',
     'FAMILY_EDUCATION',
     'FAMILY_MUSICVIDEO',
-    'FAMILY_PRETEND',
+    'FAMILY_PRETEND'
   ]
 }
 
@@ -52,11 +63,12 @@ async function getApps(criteria) {
       category,
       collection,
       fullDetail: true,
-      num: 10000,
-      throttle: 1000
+      num: 100,
+      throttle: 1
     });
   } catch (error) {
     const message = `Error getting ${collection} collection under ${category} category:`;
+    console.log(`['${collection}', '${category}']`);
     console.error(`${chalk.red(message)}`);
     console.error(error);
     console.log('\n');
@@ -93,6 +105,7 @@ async function scrape() {
   try {
     const categories = getCategories();
     const combinations = getCartesianProductOf(collections, categories);
+    console.log(combinations);
     const getAppsPromises = _.map(combinations, combination =>
       getApps(combination)
     );
@@ -105,10 +118,10 @@ async function scrape() {
     const filepath = path.join(__dirname, '..', '/outputs/', filename);
 
     const writeResult = await writeToFile(filepath, formattedContent);
-    console.log(`${chalk.green(writeResult)}`);
+    console.log(`${chalk.reset(writeResult)}`);
   } catch (error) {
     console.error('Error during scraping:');
-    console.error(error);
+    console.error(`${chalk.reset(error)}`);
   }
 }
 
